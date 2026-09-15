@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>UEH E-Lunch</title>
+<style>
+:root{--navy:#12365b;--orange:#f26722;--bg:#f4f6f8;--text:#171717;--muted:#6e7681;--card:#fff;--green:#26a65b;--yellow:#f5c518;--red:#e53935;--line:#e6e9ed}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#eef3f7,#d9e4ec);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+.app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg);box-shadow:0 0 35px #0002;position:relative;padding-bottom:82px}.topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:12px;background:#fff1;display:grid;place-items:center;font-weight:800;color:#ff8d4e}.brand{font-size:22px;font-weight:800;flex:1}.iconbtn{border:0;background:#fff0;color:#fff;font-size:20px;cursor:pointer}.content{padding:16px}.section-title{font-size:22px;font-weight:800;margin:8px 0 14px}.subtle{color:var(--muted);font-size:13px}.toolbar{display:flex;gap:8px;margin-bottom:12px}.search{flex:1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px}.chips{display:flex;gap:8px;overflow:auto;padding-bottom:6px}.chip{white-space:nowrap;border:1px solid #d7dce2;background:#fff;border-radius:999px;padding:8px 12px;font-size:13px}.chip.active{background:var(--navy);color:white;border-color:var(--navy)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;margin:8px 0 14px}.dot{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:5px}.available{background:var(--green)}.low{background:var(--yellow)}.soldout{background:var(--red)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 3px 10px #00000012;border:1px solid #edf0f2}.foodimg{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.cardbody{padding:10px}.row{display:flex;align-items:center;gap:8px}.name{font-weight:800;font-size:15px;min-height:38px;flex:1}.price{font-weight:800;margin:4px 0}.meta{font-size:12px;color:var(--muted);line-height:1.45}.btn{width:100%;border:0;border-radius:11px;padding:11px 12px;font-weight:800;cursor:pointer}.btn-primary{background:var(--navy);color:#fff}.btn-orange{background:var(--orange);color:#fff}.btn-light{background:#eef1f4;color:#222}.btn-danger{background:#ffe9e8;color:#b42318}.btn:disabled{opacity:.45;cursor:not-allowed}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:30;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}.tab{border:0;background:#fff;color:#666;padding:6px 2px;font-size:11px}.tab b{display:block;font-size:18px}.tab.active{color:var(--navy);font-weight:800}.badge{position:absolute;background:var(--orange);color:#fff;border-radius:999px;padding:2px 6px;font-size:10px;margin-left:-6px}
+.panel{background:#fff;border-radius:15px;padding:14px;margin-bottom:12px;border:1px solid var(--line);box-shadow:0 3px 10px #00000009}.times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.time{border:1px solid #ccd3db;background:#fff;border-radius:10px;padding:12px 6px}.time.selected{border-color:var(--orange);box-shadow:0 0 0 2px #f2672222}.summary-item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}.thumb{width:64px;height:64px;object-fit:cover;border-radius:10px}.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border:1px solid #ddd;background:#fff;border-radius:9px}.total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:14px 0}.notice{border:1px solid #e6a66a;background:#fff9f2;border-radius:12px;padding:12px;text-align:center;margin-bottom:12px}.qr{display:block;width:220px;max-width:70%;margin:10px auto;background:#fff;border-radius:12px}.order-card{background:#fff;border-radius:14px;padding:13px;margin-bottom:10px;border:1px solid var(--line)}.status{font-weight:800;color:var(--navy)}.statuspill{display:inline-block;padding:6px 9px;border-radius:999px;background:#eaf2ff;color:#174c8c;font-size:12px;font-weight:700}.hidden{display:none!important}.empty{padding:40px 20px;text-align:center;color:#7b838c}.stars{color:#e49a00;font-size:12px}.suggest{background:#ecf7ff;border:1px solid #cfe8ff;padding:10px;border-radius:12px;font-size:13px;margin:10px 0}profilebox{text-align:center;padding:22px}.avatar{width:72px;height:72px;border-radius:50%;background:#dfe8f1;margin:auto;display:grid;place-items:center;font-size:30px}.smallbtn{border:0;border-radius:9px;padding:8px 10px;font-weight:700;cursor:pointer}.adminrow{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;border-bottom:1px solid #eee;padding:9px 0}.adminrow select{padding:8px;border-radius:8px;border:1px solid #ccc}.slotadmin{border-top:1px solid #eee;margin-top:12px;padding-top:12px}.slotrow{display:grid;grid-template-columns:1fr 70px 74px;gap:6px;align-items:center;padding:9px 0;border-bottom:1px solid #eee}.slotrow input{width:100%;padding:8px;border:1px solid #ccc;border-radius:8px}.slotrow button{border:0;border-radius:8px;padding:8px 6px;font-weight:700;cursor:pointer}.slotfull{color:#b42318;font-weight:800}.slotok{color:#26734d;font-weight:700}
+@media (min-width:700px){body{padding:24px}.app{min-height:900px;border-radius:28px;overflow:hidden}.bottom{bottom:24px;border-radius:0 0 28px 28px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar"><div class="logo">UEH</div><div class="brand">UEH E-Lunch</div><button class="iconbtn" onclick="showPage('profile')">◉</button><button class="iconbtn" onclick="toggleSearch()">⌕</button></header>
+  <main class="content">
+    <section id="homePage">
+      <div class="section-title">Thực đơn hôm nay</div><div class="toolbar"><input id="search" class="search hidden" placeholder="Tìm món..." oninput="renderMenu()"></div>
+      <div id="chips" class="chips"></div>
+      <div class="legend"><span><i class="dot available"></i>Còn món</span><span><i class="dot low"></i>Sắp hết</span><span><i class="dot soldout"></i>Hết món</span></div>
+      <div id="menu" class="grid"></div>
+    </section>
+
+    <section id="cartPage" class="hidden">
+      <div class="section-title">Chọn thời gian nhận món</div>
+      <div class="panel"><div class="subtle">Dự kiến hoàn thành</div><div style="font-size:22px;font-weight:800;margin-top:4px"><span id="prepTime">10</span> phút</div></div>
+      <div class="panel"><b>Khung giờ lấy món</b><div class="times" id="timeSlots" style="margin-top:12px"></div><div class="suggest">💡 Mỗi khung giờ có giới hạn suất. Số suất đã đặt được cập nhật tự động.</div></div>
+      <div class="panel"><b>Order Summary</b><div id="cartItems"></div><div class="total"><span>Tổng cộng</span><span id="cartTotal">0 VNĐ</span></div><button class="btn btn-orange" onclick="placeOrder()">Xác nhận đặt món</button></div>
+    </section>
+
+    <section id="payPage" class="hidden">
+      <div class="notice"><b>Lưu ý:</b> Đơn chỉ chuyển sang trạng thái chuẩn bị sau khi xác nhận thanh toán.</div>
+      <div class="section-title">Thanh toán đơn hàng</div>
+      <div class="panel" style="text-align:center"><div style="font-weight:800;font-size:18px">VietQR / chuyển khoản</div><div class="subtle" style="margin:6px 0 12px">Bản demo: hãy thay thông tin tài khoản thật khi triển khai.</div><img id="paymentQR" class="qr" alt="QR thanh toán"><div id="payAmount" style="font-size:24px;font-weight:900"></div><div class="subtle" id="transferContent"></div></div>
+      <button class="btn btn-orange" onclick="confirmPaid()">Tôi đã chuyển khoản</button>
+    </section>
+
+    <section id="ordersPage" class="hidden"><div class="section-title">Đơn hàng của tôi</div><div id="orders"></div></section>
+
+    <section id="profilePage" class="hidden">
+      <div class="panel profilebox"><div class="avatar">👤</div><h3>UEH E-Lunch</h3><div class="subtle">Đặt món trước • chọn giờ nhận • QR nhận món</div></div>
+      <div class="panel"><b>Tính năng theo feedback</b><p class="subtle">✓ trạng thái món theo thời gian thực<br>✓ đổi giờ nhận món<br>✓ hủy đơn<br>✓ đặt lại đơn cũ<br>✓ đánh giá món<br>✓ gợi ý khung giờ ít đông</p></div>
+      <div class="panel"><b>Khu vực nhân viên</b><p class="subtle">Cập nhật nhanh trạng thái món.</p><input id="staffPin" class="search" placeholder="PIN nhân viên" type="password"/>
+        <div id="adminMenu" style="margin-top:10px"></div>
+         <div class="slotadmin">
+           <b>Quản lý số suất theo khung giờ</b>
+           <p class="subtle">Nhập sức chứa tối đa cho từng khung giờ. Số đã đặt được tính tự động từ đơn hàng.</p>
+           <div id="adminSlots" style="margin-top:8px; display:none;"></div>
+<div id="staffPinBox" style="margin-top:12px;">
+  <input id="staffPinInput" type="password"
+         placeholder="Nhập mã PIN nhân viên"
+         inputmode="numeric"
+         maxlength="20"
+         style="padding:10px;border:1px solid #ddd;border-radius:10px;width:70%;">
+  <button onclick="verifyStaffPin()"
+          style="padding:10px 14px;border:0;border-radius:10px;background:#111;color:white;">
+    Xác nhận
+  </button>
+  <div id="staffPinMsg" style="margin-top:8px;"></div>
+</div>
+         </div>
+      </div>
+    </section>
+  </main>
+  <nav class="bottom">
+    <button class="tab active" data-page="home" onclick="showPage('home')"><b>⌂</b>Home</button>
+    <button class="tab" data-page="cart" onclick="showPage('cart')"><b>▦</b>Giỏ hàng <span id="cartBadge" class="badge hidden">0</span></button>
+    <button class="tab" data-page="orders" onclick="showPage('orders')"><b>▤</b>Orders</button>
+    <button class="tab" data-page="profile" onclick="showPage('profile')"><b>♙</b>Profile</button>
+  </nav>
+</div>
+<script>
+let menu=[],category='Tất cả',cart=JSON.parse(localStorage.getItem('ueh_cart')||'{}'),selectedTime='11:30 - 11:45';
+let currentOrder=localStorage.getItem('ueh_current_order')||'';
+const money=n=>new Intl.NumberFormat('vi-VN').format(n)+' VNĐ';
+async function loadMenu(){menu=await fetch('/api/menu').then(r=>r.json());renderChips();renderMenu();renderAdmin();updateBadge()}
+function renderChips(){const cats=['Tất cả',...new Set(menu.map(x=>x.category))];chips.innerHTML=cats.map(c=>`<button class="chip ${c===category?'active':''}" onclick="category='${c}';renderChips();renderMenu()">${c}</button>`).join('')}
+function statusText(s){return s==='available'?'Còn món':s==='low'?'Sắp hết':'Hết món'}
+function renderMenu(){const q=(search.value||'').toLowerCase();const data=menu.filter(x=>(category==='Tất cả'||x.category===category)&&x.name.toLowerCase().includes(q));document.getElementById('menu').innerHTML=data.map(x=>`<article class="card"><img class="foodimg" src="/static/dishes/${x.img}"><div class="cardbody"><div class="row"><div class="name">${x.name}</div><i class="dot ${x.status}" title="${statusText(x.status)}"></i></div><div class="price">${money(x.price)}</div><div class="meta">⭐ ${x.rating} · ${x.orders} người đang đặt</div><div class="meta" style="margin-bottom:8px">${statusText(x.status)}</div><button class="btn btn-primary" ${x.status==='soldout'?'disabled':''} onclick="add(${x.id})">${x.status==='soldout'?'Hết món':'Add to Cart'}</button></div></article>`).join('')||'<div class="empty" style="grid-column:1/-1">Không tìm thấy món phù hợp</div>'}
+function add(id){cart[id]=(cart[id]||0)+1;saveCart();updateBadge();showPage('cart')}
+function saveCart(){localStorage.setItem('ueh_cart',JSON.stringify(cart))}
+function updateBadge(){const n=Object.values(cart).reduce((a,b)=>a+b,0);cartBadge.textContent=n;cartBadge.classList.toggle('hidden',!n)}
+function cartData(){return Object.entries(cart).map(([id,qty])=>({...menu.find(x=>x.id==id),qty})).filter(x=>x.id)}
+function renderCart(){const items=cartData(); if(!items.length){cartItems.innerHTML='<div class="empty">Giỏ hàng đang trống</div>';cartTotal.textContent='0 VNĐ';prepTime.textContent='0';return}
+cartItems.innerHTML=items.map(x=>`<div class="summary-item"><img class="thumb" src="/static/dishes/${x.img}"><div style="flex:1"><b>${x.name}</b><div class="subtle">${money(x.price)}</div></div><div class="qty"><button onclick="qty(${x.id},-1)">−</button><b>${x.qty}</b><button onclick="qty(${x.id},1)">+</button></div></div>`).join('');
+cartTotal.textContent=money(items.reduce((s,x)=>s+x.price*x.qty,0));prepTime.textContent=Math.max(...items.map(x=>x.prep));renderTimes()}
+function qty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];saveCart();updateBadge();renderCart()}
+async function renderTimes(){
+  try{
+    const slots=await fetch('/api/pickup-slots').then(r=>r.json());
+    timeSlots.innerHTML=slots.map(s=>{
+      const remaining=Math.max(0,s.capacity-s.used);
+      const note=s.full?`${s.used}/${s.capacity} suất — Hết slot`:`${s.used}/${s.capacity} suất đã đặt`;
+      return `<button class="time ${s.time===selectedTime?'selected':''}" ${s.full?'disabled':''} onclick="selectedTime='${s.time}';renderTimes()">${s.time}<div class="subtle">${note}</div></button>`;
+    }).join('');
+    if(slots.find(s=>s.time===selectedTime)?.full){const first=slots.find(s=>!s.full); if(first) selectedTime=first.time; renderTimes();}
+  }catch(e){timeSlots.innerHTML='<div class="subtle">Không tải được số suất</div>'}
+}
+async function placeOrder(){const items=cartData().map(x=>({id:x.id,qty:x.qty}));if(!items.length)return alert('Giỏ hàng đang trống');const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,pickup:selectedTime})});const d=await r.json();if(!r.ok)return alert(d.error||'Có lỗi');currentOrder=d.id;localStorage.setItem('ueh_current_order',d.id);payAmount.textContent=money(d.total);transferContent.textContent='Nội dung: '+d.id; paymentQR.src='https://quickchart.io/qr?text='+encodeURIComponent('DEMO PAYMENT '+d.id+' '+d.total)+'&size=220';showPage('pay')}
+async function confirmPaid(){if(!currentOrder)return;await fetch(`/api/orders/${currentOrder}/pay`,{method:'POST'});cart={};saveCart();updateBadge();await renderOrders();showPage('orders')}
+async function renderOrders(){const ids=JSON.parse(localStorage.getItem('ueh_orders')||'[]');if(currentOrder&&!ids.includes(currentOrder)){ids.unshift(currentOrder);localStorage.setItem('ueh_orders',JSON.stringify(ids))} if(!ids.length){orders.innerHTML='<div class="empty">Chưa có đơn hàng</div>';return}
+const arr=[];for(const id of ids){try{let d=await fetch('/api/orders/'+id).then(r=>r.json());if(!d.error)arr.push(d)}catch(e){}}
+orders.innerHTML=arr.map(d=>`<div class="order-card"><div class="row"><b style="flex:1">${d.id}</b><span class="statuspill">${d.status}</span></div><div class="subtle" style="margin:7px 0">Khung giờ: ${d.pickup} · ${money(d.total)}</div><div>${d.items.map(i=>`${i.name} ×${i.qty}`).join('<br>')}</div><img class="qr" src="${d.qr}"><div class="subtle" style="text-align:center">Quét QR này tại quầy để nhận món</div><div class="row" style="margin-top:10px"><button class="smallbtn btn-light" onclick="reorder('${d.id}')">🔄 Đặt lại</button><button class="smallbtn btn-light" onclick="changePickup('${d.id}')">Đổi giờ</button><button class="smallbtn btn-danger" onclick="cancelOrder('${d.id}')">Hủy đơn</button></div></div>`).join('')}
+async function cancelOrder(id){if(!confirm('Bạn muốn hủy đơn này?'))return;let d=await fetch(`/api/orders/${id}/cancel`,{method:'POST'}).then(r=>r.json());if(d.error)alert(d.error);renderOrders()}
+async function changePickup(id){const t=prompt('Nhập đúng một khung giờ: 11:15 - 11:30, 11:30 - 11:45, 11:45 - 12:00, 12:00 - 12:15, 12:15 - 12:30, 12:30 - 12:45');if(!t)return;const r=await fetch(`/api/orders/${id}/pickup`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pickup:t})});const d=await r.json();if(!r.ok)return alert(d.error||'Không đổi được giờ');renderOrders()}
+async function reorder(id){let d=await fetch('/api/orders/'+id).then(r=>r.json());cart={};d.items.forEach(i=>cart[i.id]=i.qty);saveCart();updateBadge();showPage('cart')}
+function renderAdmin(){adminMenu.innerHTML=menu.slice(0,12).map(x=>`<div class="adminrow"><span>${x.name}</span><select onchange="staffStatus(${x.id},this.value)"><option value="available" ${x.status==='available'?'selected':''}>Còn món</option><option value="low" ${x.status==='low'?'selected':''}>Sắp hết</option><option value="soldout" ${x.status==='soldout'?'selected':''}>Hết món</option></select></div>`).join('');loadAdminSlots()}
+async function staffStatus(id,status){const pin=staffPin.value;if(!pin){alert('Nhập PIN nhân viên trước');return loadMenu()}const r=await fetch('/api/staff/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin,id,status})});const d=await r.json();if(!r.ok)alert(d.error);await loadMenu()}
+async function loadAdminSlots(){try{
+const pin=window.staffPin||'';
+if(!pin){adminSlots.innerHTML='<div class="subtle">Vui lòng xác thực PIN nhân viên.</div>';return}
+const r=await fetch('/api/staff/pickup-slots',{headers:{'X-Staff-PIN':pin}});
+const slots=await r.json();
+if(!r.ok){adminSlots.innerHTML='<div class="subtle">Không có quyền truy cập.</div>';return}
+adminSlots.innerHTML=slots.map(s=>`<div class="slotrow"><div><b>${s.time}</b><div class="subtle">${s.used}/${s.capacity} suất đã đặt · còn ${s.remaining}</div></div><input id="cap_${s.time.replace(/\D/g,'')}" type="number" min="1" max="500" value="${s.capacity}"><button onclick="saveSlotCapacity('${s.time}',this)">Lưu</button></div>`).join('')
+}catch(e){adminSlots.innerHTML='<div class="subtle">Không tải được dữ liệu slot.</div>'}}
+async function saveSlotCapacity(time,btn){const input=btn.parentElement.querySelector('input');const pin=staffPin.value;if(!pin){alert('Nhập PIN nhân viên trước');return}const capacity=Number(input.value);if(!capacity){alert('Nhập số suất hợp lệ');return}btn.disabled=true;const r=await fetch('/api/staff/pickup-slots',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin,time,capacity})});const d=await r.json();btn.disabled=false;if(!r.ok){alert(d.error||'Không cập nhật được');return}alert(`Đã cập nhật ${time}: ${d.capacity} suất tối đa.`);await loadAdminSlots();await renderTimes()}
+function toggleSearch(){search.classList.toggle('hidden');if(!search.classList.contains('hidden'))search.focus()}
+function showPage(p){['home','cart','pay','orders','profile'].forEach(x=>document.getElementById(x+'Page')?.classList.toggle('hidden',x!==p));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===p));if(p==='cart')renderCart();if(p==='orders')renderOrders();if(p==='profile')renderAdmin();window.scrollTo(0,0)}
+loadMenu();
+</script>
+
+<script>
+async function verifyStaffPin() {
+    const pin = document.getElementById("staffPinInput").value.trim();
+    const msg = document.getElementById("staffPinMsg");
+    const admin = document.getElementById("adminSlots");
+
+    if (!pin) {
+        msg.innerHTML = "❌ Vui lòng nhập mã PIN.";
+        return;
+    }
+
+    try {
+        const res = await fetch("/api/staff/pickup-slots", {
+            method: "GET",
+            headers: {
+                "X-Staff-PIN": pin
+            }
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            msg.innerHTML = "❌ Mã PIN không đúng.";
+            admin.style.display = "none";
+            return;
+        }
+
+        // PIN đúng
+        window.staffPin = pin;
+        msg.innerHTML = "✅ Xác thực thành công. Bạn có quyền quản lý.";
+        admin.style.display = "block";
+
+        if (typeof loadAdminSlots === "function") {
+            loadAdminSlots();
+        }
+    } catch (err) {
+        msg.innerHTML = "❌ Không thể xác thực. Vui lòng thử lại.";
+        admin.style.display = "none";
+    }
+}
+</script>
+
+</body></html>

@@ -1,0 +1,22 @@
+# CHẠY TRÊN GOOGLE COLAB
+# 1) Upload file UEH-E-Lunch-Colab.zip vào Colab.
+# 2) Chạy block dưới đây (đổi tên zip nếu cần):
+
+!unzip -o /content/UEH-E-Lunch-Colab.zip -d /content/UEH-E-Lunch
+%cd /content/UEH-E-Lunch
+!pip -q install -r requirements.txt
+
+import subprocess, time, re
+subprocess.Popen(['python','app.py'])
+time.sleep(2)
+
+# Tạo link public miễn phí bằng Cloudflare Tunnel
+!wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /content/cloudflared
+!chmod +x /content/cloudflared
+p = subprocess.Popen(['/content/cloudflared','tunnel','--url','http://127.0.0.1:5000'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+for line in p.stdout:
+    print(line.strip())
+    m = re.search(r'https://[-a-z0-9]+\.trycloudflare\.com', line)
+    if m:
+        print('\nMỞ WEB TẠI:', m.group(0))
+        break
