@@ -129,6 +129,41 @@ def create_order():
     c.commit(); c.close()
     return jsonify({'id':oid,'total':total,'pickup':pickup,'prep':prep})
 
+
+@app.get('/api/staff/orders')
+def staff_orders():
+    pin = request.headers.get('X-Staff-PIN', '')
+    if str(pin) != STAFF_PIN:
+        return jsonify({'error':'Sai PIN nhân viên'}),403
+
+    c = conn()
+    rows = c.execute("""
+        SELECT id, items, total, pickup, prep, status, paid, created_at
+        FROM orders
+        ORDER BY created_at DESC
+    """).fetchall()
+    c.close()
+
+    orders = []
+    for row in rows:
+        try:
+            items = json.loads(row['items'])
+        except Exception:
+            items = []
+
+        orders.append({
+            'id': row['id'],
+            'items': items,
+            'total': row['total'],
+            'pickup': row['pickup'],
+            'prep': row['prep'],
+            'status': row['status'],
+            'paid': row['paid'],
+            'created_at': row['created_at']
+        })
+
+    return jsonify(orders)
+
 @app.post('/api/orders/<oid>/pay')
 def pay(oid):
     c=conn(); c.execute("UPDATE orders SET paid=1,status='Đã thanh toán - đang chuẩn bị' WHERE id=?",(oid,)); c.commit(); c.close()

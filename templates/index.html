@@ -47,6 +47,14 @@
       <div class="panel"><b>Tính năng theo feedback</b><p class="subtle">✓ trạng thái món theo thời gian thực<br>✓ đổi giờ nhận món<br>✓ hủy đơn<br>✓ đặt lại đơn cũ<br>✓ đánh giá món<br>✓ gợi ý khung giờ ít đông</p></div>
       <div class="panel"><b>Khu vực nhân viên</b><p class="subtle">Cập nhật nhanh trạng thái món.</p><input id="staffPin" class="search" placeholder="PIN nhân viên" type="password"/>
         <div id="adminMenu" style="margin-top:10px"></div>
+<div id="staffOrders" style="margin-top:12px; display:none;">
+  <div class="slotadmin">
+    <b>Đơn hàng khách</b>
+    <p class="subtle">Danh sách đơn hàng mới nhất của khách.</p>
+    <div id="staffOrdersList"></div>
+  </div>
+</div>
+
          <div class="slotadmin">
            <b>Quản lý số suất theo khung giờ</b>
            <p class="subtle">Nhập sức chứa tối đa cho từng khung giờ. Số đã đặt được tính tự động từ đơn hàng.</p>
@@ -159,9 +167,81 @@ async function verifyStaffPin() {
         if (typeof loadAdminSlots === "function") {
             loadAdminSlots();
         }
+
+        if (typeof loadStaffOrders === "function") {
+            loadStaffOrders();
+        }
     } catch (err) {
         msg.innerHTML = "❌ Không thể xác thực. Vui lòng thử lại.";
         admin.style.display = "none";
+    }
+}
+</script>
+
+
+<script>
+async function loadStaffOrders(){
+    const box = document.getElementById("staffOrders");
+    const list = document.getElementById("staffOrdersList");
+    const pin = window.staffPin || "";
+
+    if (!pin) {
+        box.style.display = "none";
+        return;
+    }
+
+    try {
+        const res = await fetch("/api/staff/orders", {
+            headers: {
+                "X-Staff-PIN": pin
+            }
+        });
+
+        const orders = await res.json();
+
+        if (!res.ok) {
+            box.style.display = "none";
+            return;
+        }
+
+        box.style.display = "block";
+
+        if (!orders.length) {
+            list.innerHTML = '<div class="subtle">Chưa có đơn hàng nào.</div>';
+            return;
+        }
+
+        list.innerHTML = orders.map(o => `
+            <div style="border:1px solid #ddd;border-radius:12px;padding:12px;margin-top:10px;">
+                <div style="display:flex;justify-content:space-between;gap:8px;">
+                    <b>${o.id}</b>
+                    <b>${Number(o.total).toLocaleString('vi-VN')}đ</b>
+                </div>
+
+                <div class="subtle" style="margin-top:6px;">
+                    🕐 ${o.pickup}
+                </div>
+
+                <div style="margin-top:8px;">
+                    ${o.items.map(item => `
+                        <div>
+                            ${item.name} × ${item.qty}
+                        </div>
+                    `).join("")}
+                </div>
+
+                <div style="margin-top:8px;">
+                    <b>Trạng thái:</b> ${o.status}
+                </div>
+
+                <div class="subtle" style="margin-top:4px;">
+                    ${o.created_at}
+                </div>
+            </div>
+        `).join("");
+
+    } catch (err) {
+        list.innerHTML = '<div class="subtle">Không tải được đơn hàng.</div>';
     }
 }
 </script>
